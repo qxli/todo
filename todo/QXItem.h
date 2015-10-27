@@ -10,12 +10,14 @@
 
 @interface QXItem : NSObject
 
-@property (nonatomic, strong) NSString *Name;
+@property (nonatomic, strong) NSString *Name;       // 提醒名
 @property (nonatomic, strong) NSString *Content;
-@property (nonatomic, strong) NSDate *dateCreated;
+@property (nonatomic, strong) NSDate *dateCreated;  // 创建日期
+@property (nonatomic, strong) NSDate *dateAlarm;  // 提醒时间
 @property (nonatomic, strong) NSString *Key;
 @property (nonatomic, assign) BOOL isChecked;
 @property (nonatomic) BOOL isComplete;
+@property (nonatomic) NSInteger listId;
 
 - (instancetype) initWithItemName:(NSString *)name Content:(NSString *)content Date:(NSDate *)date;
 @end

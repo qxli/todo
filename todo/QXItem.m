@@ -16,7 +16,8 @@
     if (self) {
         _Name = name;
         _Content = @"";
-        _dateCreated = date;
+        _dateCreated = [NSDate alloc];
+        _dateAlarm = date;
         NSUUID *uuid = [[NSUUID alloc] init];
         _Key = [uuid UUIDString];
         _isChecked = NO;
@@ -30,6 +31,9 @@
     if (self) {
         _Name = [aCoder decodeObjectForKey:@"itemName"];
         _dateCreated = [aCoder decodeObjectForKey:@"itemDateCreated"];
+        _Key = [aCoder decodeObjectForKey:@"itemKey"];
+        _dateAlarm = [aCoder decodeObjectForKey:@"itemDateAlarm"];
+        _listId = [aCoder decodeInt64ForKey:@"itemListId"];
     }
     return self;
 }
@@ -38,6 +42,9 @@
 {
     [aCoder encodeObject:self.Name forKey:@"itemName"];
     [aCoder encodeObject:self.dateCreated forKey:@"itemDateCreated"];
+    [aCoder encodeObject:self.Key forKey:@"itemKey"];
+    [aCoder encodeObject:self.dateAlarm forKey:@"itemDateAlarm"];
+    [aCoder encodeInt64:self.listId forKey:@"itemListId"];
 }
 
 @end

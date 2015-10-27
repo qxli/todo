@@ -25,4 +25,9 @@
 #define CC_Factor_iPhone6_375 (CC_Screen_Bounds.size.width/375.0f)
 #define CC_Factor_iPhone5s_320 (CC_Screen_Bounds.size.width/320.0f)
 
+#define UIColorFromHex(s) \
+    [UIColor colorWithRed:(((s & 0xFF0000) >> 16))/255.0 \
+                    green:(((s & 0xFF00) >> 8))/255.0 \
+                     blue:((s & 0xFF))/255.0  alpha:1.0]
+
 #endif /* common_h */

@@ -8,10 +8,14 @@
 
 #import "QXItemStore.h"
 #import "QXItem.h"
+#import "QXItemList.h"
 
 @interface QXItemStore()
 @property (nonatomic) NSMutableArray *unCheckItems;
 @property (nonatomic) NSMutableArray *checkItems;
+
+@property (nonatomic) NSMutableArray *items;
+@property (nonatomic) NSMutableArray *itemLists;
 @end
 
 @implementation QXItemStore
@@ -35,17 +39,25 @@
 {
     self = [super init];
     if (self) {
-        NSString *path = [self itemArchivePath];
-        _unCheckItems = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-        _checkItems = [[NSMutableArray alloc] init];
+        _items = [NSKeyedUnarchiver unarchiveObjectWithFile:[self getItemArchivePath]];
+        _itemLists = [NSKeyedUnarchiver unarchiveObjectWithFile:[self getItemListArchivePath]];
+        
+        
+        if (!_checkItems) {
+            _checkItems = [[NSMutableArray alloc] init];
+            QXItem *item = [[QXItem alloc] initWithItemName:@"这里显示完成的提醒" Content:nil Date:nil];
+            [self addCheckItem:item];
+        }
         if (!_unCheckItems) {
             _unCheckItems = [[NSMutableArray alloc] init];
+            QXItem *item;
+            item = [[QXItem alloc] initWithItemName:@"向又滑动可以删除" Content:nil Date:nil];
+            [self addUnCheckItem:item];
+            item = [[QXItem alloc] initWithItemName:@"点击我可以设置提醒时间" Content:nil Date:nil];
+            [self addUnCheckItem:item];
+            item = [[QXItem alloc] initWithItemName:@"上边的输入框可以添加提醒" Content:nil Date:nil];
+            [self addUnCheckItem:item];
         }
-//        if (!_items) {
-//            _items = [[NSMutableArray alloc] init];
-//            QXItem *item = [[QXItem alloc] initWithItemName:@"这个提醒设置了时间" Content:nil Date:[[NSDate alloc] init]];
-//            [self addItem:item];
-//        }
     }
     return self;
 }
@@ -70,27 +82,43 @@
     [self.unCheckItems insertObject:item atIndex:0];
 }
 
-- (void)addUnCheckItem:(QXItem *)item
-{
-    [self.unCheckItems insertObject:item atIndex:0];
+- (void)addUnCheckItem:(QXItem *)item {
+    [self addUnCheckItem:item index:0];
 }
 
-- (void)addCheckItem:(QXItem *)item
-{
-    [self.checkItems insertObject:item atIndex:0];
-//    [self.checkItems addObject:item];
+- (void)addUnCheckItem:(QXItem *)item index:(NSInteger)index {
+    [self.unCheckItems insertObject:item atIndex:index];
 }
 
-- (NSString *)itemArchivePath
-{
+- (void)addCheckItem:(QXItem *)item {
+    [self addCheckItem:item index:0];
+}
+
+- (void)addCheckItem:(QXItem *)item index:(NSInteger)index{
+    [self.checkItems insertObject:item atIndex:index];
+}
+
+- (NSString *)getItemArchivePath {
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    return [path stringByAppendingPathComponent:@"items.data"];
+    path = [path stringByAppendingPathComponent:@"items.data"];
+    return path;
+}
+
+- (NSString *)getItemListArchivePath {
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    path = [path stringByAppendingPathComponent:@"itemLists.data"];
+    return path;
 }
 
 - (BOOL)saveItem
 {
-    NSString *path = [self itemArchivePath];
-    return [NSKeyedArchiver archiveRootObject:self.unCheckItems toFile:path];
+    BOOL ret = YES;
+    NSString *path = nil;
+    path = [self getItemArchivePath];
+    [NSKeyedArchiver archiveRootObject:self.items toFile:path];
+    path = [self getItemListArchivePath];
+    [NSKeyedArchiver archiveRootObject:self.itemLists toFile:path];
+    return ret;
 }
 
 - (void)removeItem:(QXItem *)item isCheck:(BOOL)check

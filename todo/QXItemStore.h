@@ -20,7 +20,9 @@
 - (NSArray *) allCheckItems;
 - (void)addItem:(QXItem *)item;
 - (void)addUnCheckItem:(QXItem *)item;
+- (void)addUnCheckItem:(QXItem *)item index:(NSInteger)index;
 - (void)addCheckItem:(QXItem *)item;
+- (void)addCheckItem:(QXItem *)item index:(NSInteger)index;
 - (BOOL)saveItem;
 - (void)removeItem:(QXItem *)item isCheck:(BOOL)check;
 @end

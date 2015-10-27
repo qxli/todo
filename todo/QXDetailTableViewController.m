@@ -54,7 +54,7 @@ static NSString *ktextFieldCell = @"textFieldCell";
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    if (self.item.dateCreated) {
+    if (self.item.dateAlarm) {
         self.dateSwitchOn = YES;
     }
     
@@ -62,8 +62,8 @@ static NSString *ktextFieldCell = @"textFieldCell";
     if (self.datePicker != nil)
     {
         NSDate *date = [NSDate date];
-        if (self.item.dateCreated) {
-            date = self.item.dateCreated;
+        if (self.item.dateAlarm) {
+            date = self.item.dateAlarm;
         }
         [self.datePicker setDate:date animated:NO];
         [self.datePicker addTarget:self action:@selector(datePickerChanged:) forControlEvents:UIControlEventValueChanged];
@@ -160,7 +160,7 @@ static NSString *ktextFieldCell = @"textFieldCell";
             if (indexPath.row == 0){
                 cell = [tableView dequeueReusableCellWithIdentifier:cellID];
                 UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
-                if (self.item.dateCreated) {
+                if (self.item.dateAlarm) {
                     [switchView setOn:YES animated:NO];
                     self.dateSwitchOn = YES;
                 }
@@ -174,7 +174,7 @@ static NSString *ktextFieldCell = @"textFieldCell";
                     //cell = [tableView dequeueReusableCellWithIdentifier:cellID];
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
                     cell.textLabel.text = @"提醒时间";
-                    cell.detailTextLabel.text = [self.dateFormatter stringFromDate:item.dateCreated];
+                    cell.detailTextLabel.text = [self.dateFormatter stringFromDate:item.dateAlarm];
                 }else if (indexPath.row == 2){
                     if (self.datePickerShow) {
                         cellID = kDatePickerID;
@@ -210,19 +210,25 @@ static NSString *ktextFieldCell = @"textFieldCell";
     }
     item.Name = self.nameField.text;
 //    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-//    item.dateCreated = [self.dateFormatter dateFromString:cell.detailTextLabel.text];
+//    item.dateAlarm = [self.dateFormatter dateFromString:cell.detailTextLabel.text];
     if (isNew) {
         [[QXItemStore instance] addItem:item];
     }
-    if (item.dateCreated) {
+    if (item.dateAlarm) {
         UILocalNotification *note = [[UILocalNotification alloc] init];
         note.alertBody = item.Name;
-        note.fireDate = item.dateCreated;
+        note.fireDate = item.dateAlarm;
+//        note.repeatInterval = NSCalendarUnitMinute;
+//        note.applicationIconBadgeNumber = 1;
+        NSDictionary *infoDict = [NSDictionary dictionaryWithObject:item.Key forKey:@"key"];
+        note.userInfo = infoDict;
+        note.category = @"INVITE_CATEGORY";
         [[UIApplication sharedApplication] scheduleLocalNotification:note];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm +0800"];
-        NSString *dateString = [dateFormatter stringFromDate:item.dateCreated];
+        NSString *dateString = [dateFormatter stringFromDate:item.dateAlarm];
         NSLog(@"Setting a reminder for %@", dateString);
+//        [[UIApplication sharedApplication] cancelAllLocalNotifications];
     }
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -258,7 +264,6 @@ static NSString *ktextFieldCell = @"textFieldCell";
         if ((indexPath.row == 2 && !self.datePickerShow) || indexPath.row == 3) {
             QXCycleTableViewController *cycleTableViewController = [[QXCycleTableViewController alloc] init];
             [self.navigationController pushViewController:cycleTableViewController animated:YES];
-            NSLog(@"didSelectRowAtIndexPath");
         }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -271,7 +276,7 @@ static NSString *ktextFieldCell = @"textFieldCell";
     NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:1 inSection:1];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:cellIndexPath];
     cell.textLabel.text = [self.dateFormatter stringFromDate:datePicker.date];
-    self.item.dateCreated = datePicker.date;
+    self.item.dateAlarm = datePicker.date;
 }
 
 - (void)switchChanged:(id)sender
@@ -280,7 +285,7 @@ static NSString *ktextFieldCell = @"textFieldCell";
     UISwitch * switchView = (UISwitch *)sender;
     if (switchView.on) {
         self.dateSwitchOn = YES;
-        self.item.dateCreated = [NSDate dateWithTimeIntervalSinceNow:360];
+        self.item.dateAlarm = [NSDate dateWithTimeIntervalSinceNow:360];
         NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:1 inSection:1];
         [self.tableView insertRowsAtIndexPaths:@[cellIndexPath]
                               withRowAnimation:UITableViewRowAnimationFade];
@@ -289,13 +294,23 @@ static NSString *ktextFieldCell = @"textFieldCell";
                               withRowAnimation:UITableViewRowAnimationFade];
     } else {
         self.dateSwitchOn = NO;
-        self.item.dateCreated = nil;
-        NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:1 inSection:1];
-        [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath]
-                              withRowAnimation:UITableViewRowAnimationFade];
-        cellIndexPath = [NSIndexPath indexPathForRow:2 inSection:1];
-        [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath]
-                              withRowAnimation:UITableViewRowAnimationFade];
+        self.item.dateAlarm = nil;
+        self.datePickerShow = NO;
+        NSInteger cellCount = [self.tableView numberOfRowsInSection:1];
+        for (int i = 1; i < cellCount; i++) {
+            NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:i inSection:1];
+            [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath]
+                                  withRowAnimation:UITableViewRowAnimationFade];
+        }
+        
+        UILocalNotification *notification = nil;
+        for(UILocalNotification *notify in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
+            if([[notify.userInfo objectForKey:@"key"] isEqualToString:self.item.Key]) {
+                notification = notify;
+                break;
+            }
+        }
+        [[UIApplication sharedApplication] cancelLocalNotification:notification];
     }
     [self.tableView endUpdates];
 }

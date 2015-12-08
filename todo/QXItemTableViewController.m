@@ -47,7 +47,7 @@
 //     self.navigationItem.rightBarButtonItem = UIBarButtonSystemItemDone;
     
     UIImageView *backImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    [backImageView setImage:[UIImage imageNamed:@"back"]];
+    [backImageView setImage:[UIImage imageNamed:@"wlbackground11@2x.jpg"]];
     self.tableView.backgroundView = backImageView;
 //    self.tableView.backgroundColor = UIColorFromHex(0xa2d9ff);
 //    self.tableView.backgroundColor = [UIColor clearColor];
@@ -56,31 +56,46 @@
     self.checkView = [self getSectionView:1];
     self.isHidden = NO;
 //    self.cellView = [self getCellView];
+//    NSDate *today = [NSDate date];
+//    NSDate *thisWeek  = [today dateByAddingTimeInterval: -604800.0];
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm +0800"];
+//    NSString *dateString = [dateFormatter stringFromDate:thisWeek];
+    
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.tableView reloadData];
+}
+
+
 
 - (UIView *)getSectionView:(NSInteger)section {
     UIView *aView = nil;
     if (section == 0) {
         aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CC_Screen_Width, headViewHeight)];
 //        aView.backgroundColor = [UIColor blueColor];
-        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake((CC_Screen_Width-355*CC_Factor_iPhone6_375)/2, (headViewHeight-44)/2*CC_Factor_iPhone6_375, 355*CC_Factor_iPhone6_375, 44)];
-        textField.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.55];
-        textField.layer.cornerRadius = 3.0f;
-        textField.tintColor = [UIColor whiteColor];
-        UIView *paddingView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10*CC_Factor_iPhone6_375, headViewHeight-20)];
-        textField.leftView = paddingView;
-        textField.leftViewMode = UITextFieldViewModeAlways;
-        textField.textColor = [UIColor whiteColor];
-        textField.delegate = self;
-        textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"添加一个任务…" attributes:@{NSForegroundColorAttributeName: [UIColor lightTextColor]}];
-        textField.layer.cornerRadius = 4.0f;
-        textField.layer.borderColor = [UIColor clearColor].CGColor;
-        textField.layer.shadowColor = [UIColor blackColor].CGColor;
-        textField.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
-        textField.layer.shadowRadius = 4.0f;
-        textField.layer.shadowPath = [[UIBezierPath bezierPathWithRect:textField.layer.bounds] CGPath];
-        [textField.layer setShadowOpacity:0.1f];
-        [aView addSubview:textField];
+        if (self.isShowAdd) {
+            UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake((CC_Screen_Width-355*CC_Factor_iPhone6_375)/2, (headViewHeight-44)/2*CC_Factor_iPhone6_375, 355*CC_Factor_iPhone6_375, 44)];
+            textField.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.55];
+            textField.layer.cornerRadius = 3.0f;
+            textField.tintColor = [UIColor whiteColor];
+            UIView *paddingView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10*CC_Factor_iPhone6_375, headViewHeight-20)];
+            textField.leftView = paddingView;
+            textField.leftViewMode = UITextFieldViewModeAlways;
+            textField.textColor = [UIColor whiteColor];
+            textField.delegate = self;
+            textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"添加一个任务…" attributes:@{NSForegroundColorAttributeName: [UIColor lightTextColor]}];
+            textField.layer.cornerRadius = 4.0f;
+            textField.layer.borderColor = [UIColor clearColor].CGColor;
+            textField.layer.shadowColor = [UIColor blackColor].CGColor;
+            textField.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+            textField.layer.shadowRadius = 4.0f;
+            textField.layer.shadowPath = [[UIBezierPath bezierPathWithRect:textField.layer.bounds] CGPath];
+            [textField.layer setShadowOpacity:0.1f];
+            [aView addSubview:textField];
+        }
     } else if (section == 1) {
         aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CC_Screen_Width, 40)];
 //        aView.backgroundColor = [UIColor redColor];
@@ -114,36 +129,46 @@
     if (self) {
         UINavigationItem *navItem = self.navigationItem;
         navItem.title = @"任务清单";
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-        UIImage *image = [UIImage imageNamed:@"Settings-50"];
-        [button setBackgroundImage:image forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(globalSet:) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithCustomView:button];
-        navItem.rightBarButtonItem = bbi;
+//        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+//        UIImage *image = [UIImage imageNamed:@"Settings-50"];
+//        [button setBackgroundImage:image forState:UIControlStateNormal];
+//        [button addTarget:self action:@selector(globalSet:) forControlEvents:UIControlEventTouchUpInside];
+//        UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithCustomView:button];
+//        navItem.rightBarButtonItem = bbi;
+//        navItem.rightBarButtonItem = self.editButtonItem;
         
-        UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(leftDrawerButtonPress:)];
+//        UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithTitle:@"add" style:UIBarButtonItemStyleDone  target:self action:@selector(leftDrawerButtonPress:)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 34, 20.5)];
+        label.font = [UIFont fontWithName:@"Wundercon-Light" size:20];
+        label.text = @"x";
+        UIButton *button =  [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setFrame:CGRectMake(0, 0, 40, 40)];
+        [button addTarget:self
+                   action:@selector(leftDrawerButtonPress:)
+         forControlEvents:UIControlEventTouchUpInside];
+        [button addSubview:label];
+        UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithCustomView:button];
         [navItem setLeftBarButtonItem:leftBarButton animated:YES];
+        self.isShowAdd = YES;
     }
     return self;
 }
 
 - (void)globalSet:(id)sender {
-    QXSetTableViewController *setTableViewController = [[QXSetTableViewController alloc] init];
-    [self.navigationController pushViewController:setTableViewController animated:YES];
+//    QXSetTableViewController *setTableViewController = [[QXSetTableViewController alloc] init];
+//    [self.navigationController pushViewController:setTableViewController animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+//    [self.tableView setEditing:YES animated:YES];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    if ([[[QXItemStore instance] allCheckItems] count] <= 0){
-//        return 1;
-//    }
     return 2;
 }
 
@@ -151,9 +176,9 @@
 {
     NSUInteger count = 0;
     if (section == 0) {
-        count = [[[QXItemStore instance] allUnCheckItems] count];
+        count = [self.uncheckList count];
     } else {
-        count = [[[QXItemStore instance] allCheckItems] count];
+        count = [self.checkList count];
 //        if (self.isHidden) {
 //            count = 0;
 //        }
@@ -166,7 +191,7 @@
     if (section == 0) {
         return headViewHeight;
     } else{
-        if ([[[QXItemStore instance] allCheckItems] count] <= 0) {
+        if ([self.checkList count] <= 0) {
             return 1;
         }
     }
@@ -188,7 +213,7 @@
     if (section == 0) {
         return self.headerView;
     }else{
-        if ([[[QXItemStore instance] allCheckItems] count] <= 0) {
+        if ([self.checkList count] <= 0) {
             return nil;
         }
         return self.checkView;
@@ -198,9 +223,9 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
-    QXItem *item = [[QXItem alloc] initWithItemName:textField.text Content:nil Date:nil];
-    [[QXItemStore instance] addUnCheckItem:item];
-    NSInteger lastRow = [[[QXItemStore instance] allUnCheckItems] indexOfObject:item];
+    QXItem *item = [[QXItem alloc] initWithItemName:textField.text];
+    [self.uncheckList insertObject:item atIndex:0];
+    NSInteger lastRow = [self.uncheckList indexOfObjectIdenticalTo:item];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastRow inSection:0];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
     textField.text = @"";
@@ -241,8 +266,7 @@
     QXItem *item = nil;
     UIImage *image = nil;
     if (indexPath.section == 0) {
-        NSArray *items = [[QXItemStore instance] allUnCheckItems];
-        item = items[indexPath.row];
+        item = [self.uncheckList objectAtIndex:indexPath.row];
         image = [UIImage imageNamed:@"uncheck"];
         cell.itemLabel.textColor = [UIColor blackColor];
         cell.itemView.backgroundColor = [UIColor whiteColor];
@@ -255,11 +279,12 @@
             cell.itemLabel.text = @"";
         } else {
             cell.itemLabel.text = item.Name;
+            cell.itemLabelTop.text = @"";
+            cell.itemLabelBottom.text = @"";
         }
         
     } else{
-        NSArray *items = [[QXItemStore instance] allCheckItems];
-        item = items[indexPath.row];
+        item = [self.checkList objectAtIndex:indexPath.row];
         image = [UIImage imageNamed:@"check"];
         cell.itemLabel.textColor = [UIColor grayColor];
         [cell setHidden:NO];
@@ -314,28 +339,26 @@
     QXItem *item = nil;
     [self.tableView beginUpdates];
     if (indexPath.section == 0) {
-        NSArray *items = [[QXItemStore instance] allUnCheckItems];
-        item = items[indexPath.row];
+        item = [self.uncheckList objectAtIndex:indexPath.row];
         if (!item) {
             NSLog(@"");
         }
-        [[QXItemStore instance] addCheckItem:item index:[[[QXItemStore instance] allCheckItems] count]];
-        NSInteger firstRow = [[[QXItemStore instance] allCheckItems] indexOfObject:item];
+        [self.checkList addObject:item];
+        NSInteger firstRow = [self.checkList indexOfObject:item];
         NSIndexPath *indexPathNew = [NSIndexPath indexPathForRow:firstRow inSection:1];
         [self.tableView insertRowsAtIndexPaths:@[indexPathNew] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [[QXItemStore instance] removeItem:item isCheck:NO];
+        [self.uncheckList removeObjectIdenticalTo:item];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     } else{
-        NSArray *items = [[QXItemStore instance] allCheckItems];
-        item = items[indexPath.row];
+        item = [self.checkList objectAtIndex:indexPath.row];
         if (!item) {
             NSLog(@"");
         }
-        [[QXItemStore instance] addUnCheckItem:item index:[[[QXItemStore instance] allUnCheckItems] count]];
-        NSInteger firstRow = [[[QXItemStore instance] allUnCheckItems] indexOfObject:item];
+        [self.uncheckList addObject:item];
+        NSInteger firstRow = [self.uncheckList indexOfObject:item];
         NSIndexPath *indexPathNew = [NSIndexPath indexPathForRow:firstRow inSection:0];
         [self.tableView insertRowsAtIndexPaths:@[indexPathNew] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [[QXItemStore instance] removeItem:item isCheck:YES];
+        [self.checkList removeObjectIdenticalTo:item];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     [self.tableView endUpdates];
@@ -347,20 +370,46 @@
     QXItemTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     [cell.itemView setBackgroundColor:[UIColor colorWithRed:0.5058 green:0.7725 blue:0.9176 alpha:1.0]];
     QXDetailTableViewController *detailViewController = [[QXDetailTableViewController alloc] init];
-    NSArray *items;
+    QXItem *item = nil;
     if (indexPath.section == 0) {
-        items = [[QXItemStore instance] allUnCheckItems];
+        item = [self.uncheckList objectAtIndex:indexPath.row];
     } else {
-        items = [[QXItemStore instance] allCheckItems];
+        item = [self.checkList objectAtIndex:indexPath.row];
     }
-    QXItem *selectedItem = items[indexPath.row];
-    detailViewController.item = selectedItem;
+    detailViewController.item = item;
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return NO;
+//}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
+}
+
+-(BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
+}
+
+//- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return NO;
+//}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
+{
+    if( sourceIndexPath.section != proposedDestinationIndexPath.section) {
+        return sourceIndexPath;
+    } else {
+        return proposedDestinationIndexPath;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    id object = [self.uncheckList objectAtIndex:sourceIndexPath.row];
+    [self.uncheckList removeObjectAtIndex:sourceIndexPath.row];
+    [self.uncheckList insertObject:object atIndex:destinationIndexPath.row];
 }
 
 #pragma mark - action
@@ -376,15 +425,14 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSArray *items;
+        QXItem *item = nil;
         if (indexPath.section == 0) {
-            items = [[QXItemStore instance] allUnCheckItems];
+            item = [self.uncheckList objectAtIndex:indexPath.row];
+            [self.uncheckList removeObjectIdenticalTo:item];
         } else {
-            items = [[QXItemStore instance] allCheckItems];
+            item = [self.checkList objectAtIndex:indexPath.row];
+            [self.checkList removeObjectIdenticalTo:item];
         }
-        QXItem *item = items[indexPath.row];
-        BOOL check = indexPath.section == 0 ? NO : YES;
-        [[QXItemStore instance] removeItem:item isCheck:check];
         [self.tableView beginUpdates];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView endUpdates];

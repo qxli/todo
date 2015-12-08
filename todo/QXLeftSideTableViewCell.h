@@ -10,7 +10,9 @@
 #import "SWTableViewCell.h"
 
 @interface QXLeftSideTableViewCell : SWTableViewCell
-@property (weak, nonatomic) IBOutlet UIButton *itemIcon;
+@property (weak, nonatomic) IBOutlet UILabel *itemIcon;
 @property (weak, nonatomic) IBOutlet UILabel *itemLabel;
+@property (weak, nonatomic) IBOutlet UILabel *itemNum;
+@property (weak, nonatomic) IBOutlet UILabel *notifyNum;
 
 @end

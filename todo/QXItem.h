@@ -18,6 +18,8 @@
 @property (nonatomic, assign) BOOL isChecked;
 @property (nonatomic) BOOL isComplete;
 @property (nonatomic) NSInteger listId;
+@property (nonatomic) NSInteger cycle;
 
-- (instancetype) initWithItemName:(NSString *)name Content:(NSString *)content Date:(NSDate *)date;
+- (instancetype) initWithItemName:(NSString *)name;
+- (instancetype) initWithItemName:(NSString *)name date:(NSString *)dateString;
 @end

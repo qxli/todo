@@ -10,17 +10,39 @@
 
 @implementation QXItem
 
-- (instancetype)initWithItemName:(NSString *)name Content:(NSString *)content Date:(NSDate *)date
+- (instancetype)initWithItemName:(NSString *)name
 {
     self = [super init];
     if (self) {
         _Name = name;
         _Content = @"";
-        _dateCreated = [NSDate alloc];
-        _dateAlarm = date;
+        _dateCreated = [[NSDate alloc] init];
+        _dateAlarm = nil;
         NSUUID *uuid = [[NSUUID alloc] init];
         _Key = [uuid UUIDString];
         _isChecked = NO;
+        _listId = 0;
+        _cycle = 0;
+    }
+    return self;
+}
+
+- (instancetype)initWithItemName:(NSString *)name date:(NSString *)dateString
+{
+    self = [super init];
+    if (self) {
+        _Name = name;
+        _Content = @"";
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+        NSDate *date= [dateFormatter dateFromString:dateString];
+        _dateCreated = date;
+        _dateAlarm = nil;
+        NSUUID *uuid = [[NSUUID alloc] init];
+        _Key = [uuid UUIDString];
+        _isChecked = NO;
+        _listId = 0;
+        _cycle = 0;
     }
     return self;
 }
@@ -33,7 +55,6 @@
         _dateCreated = [aCoder decodeObjectForKey:@"itemDateCreated"];
         _Key = [aCoder decodeObjectForKey:@"itemKey"];
         _dateAlarm = [aCoder decodeObjectForKey:@"itemDateAlarm"];
-        _listId = [aCoder decodeInt64ForKey:@"itemListId"];
     }
     return self;
 }
@@ -44,7 +65,6 @@
     [aCoder encodeObject:self.dateCreated forKey:@"itemDateCreated"];
     [aCoder encodeObject:self.Key forKey:@"itemKey"];
     [aCoder encodeObject:self.dateAlarm forKey:@"itemDateAlarm"];
-    [aCoder encodeInt64:self.listId forKey:@"itemListId"];
 }
 
 @end

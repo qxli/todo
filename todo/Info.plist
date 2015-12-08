@@ -29,6 +29,10 @@
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Wundercon-Light.ttf</string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>任务清单</string>
 	<key>CFBundleShortVersionString</key>

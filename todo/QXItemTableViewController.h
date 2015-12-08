@@ -10,4 +10,7 @@
 
 @interface QXItemTableViewController : UITableViewController
 
+@property (strong, nonatomic) NSMutableArray *uncheckList;
+@property (strong, nonatomic) NSMutableArray *checkList;
+@property (nonatomic) BOOL isShowAdd;
 @end

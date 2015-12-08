@@ -8,13 +8,10 @@
 
 #import "QXItemStore.h"
 #import "QXItem.h"
-#import "QXItemList.h"
+#import "logger.h"
+#import "utils.h"
 
 @interface QXItemStore()
-@property (nonatomic) NSMutableArray *unCheckItems;
-@property (nonatomic) NSMutableArray *checkItems;
-
-@property (nonatomic) NSMutableArray *items;
 @property (nonatomic) NSMutableArray *itemLists;
 @end
 
@@ -39,74 +36,119 @@
 {
     self = [super init];
     if (self) {
-        _items = [NSKeyedUnarchiver unarchiveObjectWithFile:[self getItemArchivePath]];
         _itemLists = [NSKeyedUnarchiver unarchiveObjectWithFile:[self getItemListArchivePath]];
-        
-        
-        if (!_checkItems) {
-            _checkItems = [[NSMutableArray alloc] init];
-            QXItem *item = [[QXItem alloc] initWithItemName:@"这里显示完成的提醒" Content:nil Date:nil];
-            [self addCheckItem:item];
-        }
-        if (!_unCheckItems) {
-            _unCheckItems = [[NSMutableArray alloc] init];
+//        _itemLists = [NSKeyedUnarchiver unarchiveObjectWithFile:[self getItemListArchivePath]];
+        if (!_itemLists) {
+            _itemLists = [NSMutableArray array];
+            NSMutableDictionary *oneItem = [NSMutableDictionary dictionary];
+            NSMutableArray *checkArray = [NSMutableArray array];
+            NSMutableArray *uncheckArray = [NSMutableArray array];
             QXItem *item;
-            item = [[QXItem alloc] initWithItemName:@"向又滑动可以删除" Content:nil Date:nil];
-            [self addUnCheckItem:item];
-            item = [[QXItem alloc] initWithItemName:@"点击我可以设置提醒时间" Content:nil Date:nil];
-            [self addUnCheckItem:item];
-            item = [[QXItem alloc] initWithItemName:@"上边的输入框可以添加提醒" Content:nil Date:nil];
-            [self addUnCheckItem:item];
+            item = [[QXItem alloc] initWithItemName:@"向又滑动可以删除" date:@"2015-11-16 00:00:00"];
+            [uncheckArray addObject:item];
+            item = [[QXItem alloc] initWithItemName:@"点击我可以设置提醒时间" date:@"2015-11-27 00:00:00"];
+            [uncheckArray addObject:item];
+            item = [[QXItem alloc] initWithItemName:@"上边的输入框可以添加提醒" date:@"2015-11-24 00:00:00"];
+            [uncheckArray addObject:item];
+            [oneItem setValue:@"收集箱" forKey:@"name"];
+            [oneItem setValue:checkArray forKey:@"check"];
+            [oneItem setValue:uncheckArray forKey:@"uncheck"];
+            [_itemLists addObject:oneItem];
+            
+            [self addItemList:@"今天"];
+            [self addItemList:@"本周"];
         }
+        
     }
     return self;
 }
 
-- (NSArray *)allItems
-{
-    return self.unCheckItems;
+- (void)setItemCheck:(NSString *)key {
+    for (NSDictionary *itemDic in self.itemLists) {
+        NSArray *uncheckArray = [itemDic objectForKey:@"uncheck"];
+        for (QXItem *item in uncheckArray) {
+            if( [item.Key isEqualToString:key]) {
+                item.isChecked = YES;
+            }
+        }
+    }
+    
 }
 
-- (NSArray *)allUnCheckItems
-{
-    return self.unCheckItems;
+- (NSInteger)unCheckCount:(NSInteger) listId {
+    NSMutableDictionary *itemDic = [_itemLists objectAtIndex:listId];
+    NSInteger count = 0;
+    NSArray *itemArray = [itemDic objectForKey:@"uncheck"];
+    for (QXItem *item in itemArray) {
+        if (item.listId == listId && !item.isChecked) {
+            count++;
+        }
+    }
+    return count;
 }
 
-- (NSArray *)allCheckItems
-{
-    return self.checkItems;
+- (NSInteger)checkCount:(NSInteger) listId {
+    NSMutableDictionary *itemDic = [_itemLists objectAtIndex:listId];
+    NSArray *itemArray = [itemDic objectForKey:@"check"];
+    NSInteger count = 0;
+    for (QXItem *item in itemArray) {
+        if (item.listId == listId && item.isChecked) {
+            count++;
+        }
+    }
+    return count;
 }
 
-- (void)addItem:(QXItem *)item
-{
-    [self.unCheckItems insertObject:item atIndex:0];
+- (QXItem *)getCheckItemFromRow:(NSInteger)row listId:(NSInteger)listId {
+    QXItem *it = nil;
+    NSInteger count = -1;
+    NSMutableDictionary *itemDic = [_itemLists objectAtIndex:listId];
+    NSArray *itemArray = [itemDic objectForKey:@"check"];
+    for (QXItem *item in itemArray) {
+        if (listId == item.listId && !item.isChecked) {
+            count++;
+        }
+        if (row == count) {
+            it = item;
+            break;
+        }
+    }
+    return it;
 }
 
-- (void)addUnCheckItem:(QXItem *)item {
-    [self addUnCheckItem:item index:0];
+- (QXItem *)getUncheckItemFromRow:(NSInteger)row listId:(NSInteger)listId {
+    QXItem *it = nil;
+    NSInteger count = -1;
+    NSMutableDictionary *itemDic = [_itemLists objectAtIndex:listId];
+    NSArray *itemArray = [itemDic objectForKey:@"uncheck"];
+    for (QXItem *item in itemArray) {
+        if (listId == item.listId && item.isChecked) {
+            count++;
+        }
+        if (row == count) {
+            it = item;
+            break;
+        }
+    }
+    return it;
 }
 
-- (void)addUnCheckItem:(QXItem *)item index:(NSInteger)index {
-    [self.unCheckItems insertObject:item atIndex:index];
+- (void)addUnCheckItem:(QXItem *)item listId:(NSInteger)listId index:(NSInteger)index {
+    NSMutableDictionary *itemDic = [_itemLists objectAtIndex:listId];
+    NSMutableArray *itemArray = [itemDic objectForKey:@"uncheck"];
+    [itemArray insertObject:item atIndex:index];
 }
 
-- (void)addCheckItem:(QXItem *)item {
-    [self addCheckItem:item index:0];
-}
-
-- (void)addCheckItem:(QXItem *)item index:(NSInteger)index{
-    [self.checkItems insertObject:item atIndex:index];
-}
-
-- (NSString *)getItemArchivePath {
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    path = [path stringByAppendingPathComponent:@"items.data"];
-    return path;
+- (void)addCheckItem:(QXItem *)item listId:(NSInteger)listId index:(NSInteger)index{
+    NSMutableDictionary *itemDic = [_itemLists objectAtIndex:listId];
+    NSMutableArray *itemArray = [itemDic objectForKey:@"check"];
+    [itemArray insertObject:item atIndex:index];
 }
 
 - (NSString *)getItemListArchivePath {
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     path = [path stringByAppendingPathComponent:@"itemLists.data"];
+    NSLog(@"store path=%@", path);
     return path;
 }
 
@@ -114,20 +156,71 @@
 {
     BOOL ret = YES;
     NSString *path = nil;
-    path = [self getItemArchivePath];
-    [NSKeyedArchiver archiveRootObject:self.items toFile:path];
     path = [self getItemListArchivePath];
-    [NSKeyedArchiver archiveRootObject:self.itemLists toFile:path];
+    ret = [NSKeyedArchiver archiveRootObject:self.itemLists toFile:path];
+//    path = [self getItemListArchivePath];
+//    [NSKeyedArchiver archiveRootObject:self.itemLists toFile:path];
     return ret;
 }
 
 - (void)removeItem:(QXItem *)item isCheck:(BOOL)check
 {
     if (check) {
-        [self.checkItems removeObjectIdenticalTo:item];
+//        [self.checkItems removeObjectIdenticalTo:item];
     } else{
-        [self.unCheckItems removeObjectIdenticalTo:item];
+//        [self.unCheckItems removeObjectIdenticalTo:item];
     }
 }
+
+- (NSInteger) allItemsListCount {
+    return [_itemLists count];
+}
+
+- (NSDictionary *) getItemDic:(NSInteger)index {
+    return [_itemLists objectAtIndex:index];
+}
+
+- (void)addItemList:(NSString *)listName {
+    NSMutableDictionary *twoItem = [NSMutableDictionary dictionary];
+    NSMutableArray *checkArray2 = [NSMutableArray array];
+    NSMutableArray *uncheckArray2 = [NSMutableArray array];
+    [twoItem setValue:listName forKey:@"name"];
+    [twoItem setValue:checkArray2 forKey:@"check"];
+    [twoItem setValue:uncheckArray2 forKey:@"uncheck"];
+    [_itemLists addObject:twoItem];
+}
+
+- (NSMutableArray *)getItemFromWeek {
+    NSMutableArray *weekUncheck = [NSMutableArray array];
+    for (NSDictionary *itemDic in self.itemLists) {
+        NSArray *uncheckArray = [itemDic objectForKey:@"uncheck"];
+        for (QXItem *item in uncheckArray) {
+            if([sp intervalSinceNow:item.dateAlarm]<7
+               && [sp intervalSinceNow:item.dateAlarm]<[sp getTodayisWeek:[NSDate date]]) {
+                [weekUncheck addObject:item];
+            }
+        }
+    }
+    return weekUncheck;
+}
+
+- (NSMutableArray *)getItemFromNowTime {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYY/MM/dd"];
+    NSString *nowDate = [dateFormatter stringFromDate:[NSDate date]];
+    NSMutableArray *uncheck = [NSMutableArray array];
+    for (NSDictionary *itemDic in self.itemLists) {
+        NSArray *uncheckArray = [itemDic objectForKey:@"uncheck"];
+        for (QXItem *item in uncheckArray) {
+            NSString *dateString = [dateFormatter stringFromDate:item.dateAlarm];
+            if ([nowDate isEqualToString:dateString]) {
+                [uncheck addObject:item];
+            }
+        }
+    }
+    return uncheck;
+}
+
+
 
 @end

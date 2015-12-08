@@ -15,12 +15,30 @@
     // Initialization code
     [super awakeFromNib];
     self.backgroundColor = [UIColor clearColor];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.notifyNum.text = @"";
+    self.itemNum.text = @"";
+    self.itemIcon.font = [UIFont fontWithName:@"Wundercon-Light" size:20];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+//    if (selected) {
+//        self.itemLabel.textColor = [UIColor whiteColor];
+//    } else {
+//        self.itemLabel.textColor = [UIColor orangeColor];
+//    }
 }
+
+//- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+//    [super setHighlighted:highlighted animated:animated];
+//    if (highlighted) {
+//        self.itemLabel.textColor = [UIColor whiteColor];
+//    } else {
+//        self.itemLabel.textColor = [UIColor blackColor];
+//    }
+//}
 
 @end

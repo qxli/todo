@@ -16,6 +16,11 @@
 #import "common.h"
 #import "MMDrawerController.h"
 #import "QXLeftSideTableViewController.h"
+#import "FLEXManager.h"
+#import "logger.h"
+#import <CocoaLumberjack/DDFileLogger.h>
+#import <CocoaLumberjack/DDASLLogger.h>
+#import <CocoaLumberjack/DDTTYLogger.h>
 
 @interface AppDelegate ()
 @property (nonatomic,strong) MMDrawerController *drawerController;
@@ -27,6 +32,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+//    [[FLEXManager sharedManager] showExplorer];
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
 #if 0
     QXItemTableViewController *ivc = [[QXItemTableViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:ivc];
@@ -37,7 +46,10 @@
     self.window.rootViewController = navController;
 #else
     UIViewController *leftSideTableViewController = [[QXLeftSideTableViewController alloc] init];
-    UIViewController *ivc = [[QXItemTableViewController alloc] init];
+    QXItemTableViewController *ivc = [[QXItemTableViewController alloc] init];
+    NSDictionary *itemDic = [[QXItemStore instance] getItemDic:0];
+    ivc.checkList = [itemDic valueForKey:@"check"];
+    ivc.uncheckList = [itemDic valueForKey:@"uncheck"];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:ivc];
 //    UINavigationController *leftSideNavController = [[UINavigationController alloc] initWithRootViewController:cycleTableViewController];
     self.drawerController = [[MMDrawerController alloc] initWithCenterViewController:navController leftDrawerViewController:leftSideTableViewController];
@@ -45,8 +57,8 @@
     [self.drawerController setRestorationIdentifier:@"MMDrawer"];
     [self.drawerController setMaximumRightDrawerWidth:150.0];
     [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeBezelPanningCenterView];
-    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
-    [self.drawerController setMaximumLeftDrawerWidth:200];
+    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll&~MMCloseDrawerGestureModePanningDrawerView];
+    [self.drawerController setMaximumLeftDrawerWidth:self.window.bounds.size.width-70];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerController;
 #endif
@@ -59,40 +71,47 @@
     }
 #else
     UIMutableUserNotificationAction *acceptAction = [[UIMutableUserNotificationAction alloc] init];
-    acceptAction.identifier = @"ACCEPT_IDENTIFIER";
+    acceptAction.identifier = @"IDENTIFIER_DELAY";
     acceptAction.title = @"推迟一会";
     acceptAction.activationMode = UIUserNotificationActivationModeBackground;
     acceptAction.destructive = NO;
     acceptAction.authenticationRequired = NO;
     
     UIMutableUserNotificationAction *declineAction = [[UIMutableUserNotificationAction alloc] init];
-    declineAction.identifier = @"DECLINE_IDENTIFIER";
+    declineAction.identifier = @"IDENTIFIER_CONFIRM";
     declineAction.title = @"我知道了";
     declineAction.activationMode = UIUserNotificationActivationModeBackground;
-    declineAction.destructive = YES;
+    declineAction.destructive = NO;
     declineAction.authenticationRequired = NO;
     
     UIMutableUserNotificationCategory *inviteCategory = [[UIMutableUserNotificationCategory alloc] init];
-    inviteCategory.identifier = @"INVITE_CATEGORY";
+    inviteCategory.identifier = @"IDENTIFIER_CATEGORY";
 //    [inviteCategory setActions:@[acceptAction]
 //                    forContext:UIUserNotificationActionContextDefault]; // 弹框
-    [inviteCategory setActions:@[acceptAction, declineAction]
+    [inviteCategory setActions:@[declineAction]
                     forContext:UIUserNotificationActionContextMinimal]; // 通知栏
     
     NSSet *categories = [NSSet setWithObjects:inviteCategory, nil];
-    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    UIUserNotificationType types = UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert;
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-//    [[UIApplication sharedApplication] registerForRemoteNotifications];
-    
-//    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-//    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
-//    localNotification.alertBody = @"Testing";
-//    localNotification.category = @"INVITE_CATEGORY"; //  Same as category identifier
-//    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 #endif
-    
     return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler {
+    if ([identifier isEqualToString:@"IDENTIFIER_CONFIRM"]) {
+        [[QXItemStore instance] setItemCheck:[notification.userInfo objectForKey:@"key"]];
+        [[QXItemStore instance] saveItem];
+    } else if ([identifier isEqualToString:@"IDENTIFIER_DELAY"]) {
+    } else {
+        DDLogError(@"identifier error");
+    }
+    completionHandler();
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -104,7 +123,7 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[QXItemStore instance] allUnCheckItems] count]];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[QXItemStore instance] unCheckCount:0]];
     BOOL isSuccess = [[QXItemStore instance] saveItem];
     if (!isSuccess) {
         NSLog(@"save data failed!");

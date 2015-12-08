@@ -9,6 +9,7 @@
 #import "QXDetailTableViewController.h"
 #import "QXItemStore.h"
 #import "QXCycleTableViewController.h"
+#import "utils.h"
 
 static NSString *kDatePickerID = @"datePicker";
 static NSString *kOtherCell = @"otherCell";
@@ -79,6 +80,10 @@ static NSString *ktextFieldCell = @"textFieldCell";
     
     NSIndexPath *nameIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     self.indexPath[@"name"] = nameIndexPath;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -179,6 +184,7 @@ static NSString *ktextFieldCell = @"textFieldCell";
                     if (self.datePickerShow) {
                         cellID = kDatePickerID;
                         cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+                        [self.datePicker setDate:item.dateAlarm animated:NO];
                         [cell.contentView addSubview:self.datePicker];
                     } else {
                         cell = [tableView dequeueReusableCellWithIdentifier:cellID];
@@ -212,25 +218,29 @@ static NSString *ktextFieldCell = @"textFieldCell";
 //    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
 //    item.dateAlarm = [self.dateFormatter dateFromString:cell.detailTextLabel.text];
     if (isNew) {
-        [[QXItemStore instance] addItem:item];
+//        [[QXItemStore instance] addItem:item];
     }
     if (item.dateAlarm) {
-        UILocalNotification *note = [[UILocalNotification alloc] init];
-        note.alertBody = item.Name;
-        note.fireDate = item.dateAlarm;
-//        note.repeatInterval = NSCalendarUnitMinute;
-//        note.applicationIconBadgeNumber = 1;
-        NSDictionary *infoDict = [NSDictionary dictionaryWithObject:item.Key forKey:@"key"];
-        note.userInfo = infoDict;
-        note.category = @"INVITE_CATEGORY";
-        [[UIApplication sharedApplication] scheduleLocalNotification:note];
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm +0800"];
-        NSString *dateString = [dateFormatter stringFromDate:item.dateAlarm];
-        NSLog(@"Setting a reminder for %@", dateString);
-//        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        NSInteger repeatInterval = 0;
+        switch (item.cycle) {
+            case 1:
+                repeatInterval = NSCalendarUnitHour;
+                break;
+            case 2:
+                repeatInterval = NSCalendarUnitDay;
+                break;
+            case 3:
+                repeatInterval = NSCalendarUnitWeekday;
+                break;
+            case 4:
+                repeatInterval = NSCalendarUnitMonth;
+                break;
+        }
+        [sp setLocalNotify:item.Name
+                  fireDate:item.dateAlarm
+            repeatInterval:repeatInterval
+                       key:item.Key];
     }
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -263,6 +273,7 @@ static NSString *ktextFieldCell = @"textFieldCell";
         }
         if ((indexPath.row == 2 && !self.datePickerShow) || indexPath.row == 3) {
             QXCycleTableViewController *cycleTableViewController = [[QXCycleTableViewController alloc] init];
+            cycleTableViewController.item = self.item;
             [self.navigationController pushViewController:cycleTableViewController animated:YES];
         }
     }
@@ -303,6 +314,7 @@ static NSString *ktextFieldCell = @"textFieldCell";
                                   withRowAnimation:UITableViewRowAnimationFade];
         }
         
+        // 关闭本地通知
         UILocalNotification *notification = nil;
         for(UILocalNotification *notify in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
             if([[notify.userInfo objectForKey:@"key"] isEqualToString:self.item.Key]) {

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QXItem.h"
 
 @interface QXCycleTableViewController : UITableViewController
-
+@property (nonatomic, weak) QXItem *item;
 @end

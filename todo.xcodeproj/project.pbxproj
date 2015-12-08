@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DA32CDEC1BCF586B00E57204 /* Unchecked Checkbox-50.png in Resources */ = {isa = PBXBuildFile; fileRef = DA32CDEA1BCF586B00E57204 /* Unchecked Checkbox-50.png */; settings = {ASSET_TAGS = (); }; };
-		DA32CDED1BCF586B00E57204 /* Checked Checkbox-50.png in Resources */ = {isa = PBXBuildFile; fileRef = DA32CDEB1BCF586B00E57204 /* Checked Checkbox-50.png */; settings = {ASSET_TAGS = (); }; };
-		DA32CDF11BD3A65D00E57204 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA32CDF01BD3A65D00E57204 /* icon.png */; settings = {ASSET_TAGS = (); }; };
-		DA4944D61BC95AFD00BE534B /* QXCycleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4944D51BC95AFD00BE534B /* QXCycleTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DA982FB91BDC01830002C4BE /* QXLeftSideTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA982FB81BDC01830002C4BE /* QXLeftSideTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DA982FBD1BDDFF700002C4BE /* QXLeftSideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA982FBB1BDDFF700002C4BE /* QXLeftSideTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
-		DA982FBE1BDDFF700002C4BE /* QXLeftSideTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA982FBC1BDDFF700002C4BE /* QXLeftSideTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
-		DA982FC11BDF70C10002C4BE /* QXItemList.m in Sources */ = {isa = PBXBuildFile; fileRef = DA982FC01BDF70C00002C4BE /* QXItemList.m */; settings = {ASSET_TAGS = (); }; };
+		DA32CDEC1BCF586B00E57204 /* Unchecked Checkbox-50.png in Resources */ = {isa = PBXBuildFile; fileRef = DA32CDEA1BCF586B00E57204 /* Unchecked Checkbox-50.png */; };
+		DA32CDED1BCF586B00E57204 /* Checked Checkbox-50.png in Resources */ = {isa = PBXBuildFile; fileRef = DA32CDEB1BCF586B00E57204 /* Checked Checkbox-50.png */; };
+		DA32CDF11BD3A65D00E57204 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA32CDF01BD3A65D00E57204 /* icon.png */; };
+		DA4573191C03424A003A4079 /* wlbackground11@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DA4573181C03424A003A4079 /* wlbackground11@2x.jpg */; };
+		DA45731C1C034F78003A4079 /* Wundercon-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DA45731B1C034F78003A4079 /* Wundercon-Light.ttf */; };
+		DA4944D61BC95AFD00BE534B /* QXCycleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4944D51BC95AFD00BE534B /* QXCycleTableViewController.m */; };
+		DA982FB91BDC01830002C4BE /* QXLeftSideTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA982FB81BDC01830002C4BE /* QXLeftSideTableViewController.m */; };
+		DA982FBD1BDDFF700002C4BE /* QXLeftSideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA982FBB1BDDFF700002C4BE /* QXLeftSideTableViewCell.m */; };
+		DA982FBE1BDDFF700002C4BE /* QXLeftSideTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA982FBC1BDDFF700002C4BE /* QXLeftSideTableViewCell.xib */; };
+		DA982FC31BDFB3130002C4BE /* items.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA982FC21BDFB3130002C4BE /* items.plist */; };
+		DA982FC51BE078670002C4BE /* List-50.png in Resources */ = {isa = PBXBuildFile; fileRef = DA982FC41BE078670002C4BE /* List-50.png */; };
 		DA9977A81BC2B7FE003D0F39 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977A71BC2B7FE003D0F39 /* main.m */; };
 		DA9977AB1BC2B7FE003D0F39 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977AA1BC2B7FE003D0F39 /* AppDelegate.m */; };
 		DA9977AE1BC2B7FE003D0F39 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977AD1BC2B7FE003D0F39 /* ViewController.m */; };
@@ -23,23 +26,25 @@
 		DA9977B61BC2B7FE003D0F39 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA9977B41BC2B7FE003D0F39 /* LaunchScreen.storyboard */; };
 		DA9977C11BC2B7FE003D0F39 /* todoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977C01BC2B7FE003D0F39 /* todoTests.m */; };
 		DA9977CC1BC2B7FE003D0F39 /* todoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977CB1BC2B7FE003D0F39 /* todoUITests.m */; };
-		DA9977DB1BC2B8C7003D0F39 /* QXItemTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977DA1BC2B8C7003D0F39 /* QXItemTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DA9977DE1BC2C13D003D0F39 /* QXItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977DD1BC2C13D003D0F39 /* QXItem.m */; settings = {ASSET_TAGS = (); }; };
-		DA9977E11BC36208003D0F39 /* QXItemStore.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977E01BC36208003D0F39 /* QXItemStore.m */; settings = {ASSET_TAGS = (); }; };
-		DA9977EF1BC3A792003D0F39 /* QXDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977ED1BC3A792003D0F39 /* QXDetailTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DA9977F21BC52DCD003D0F39 /* Common.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA9977F11BC52DCD003D0F39 /* Common.xib */; settings = {ASSET_TAGS = (); }; };
-		DAD354F61BD3F8C8002E5AD4 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD354F51BD3F8C8002E5AD4 /* back.png */; settings = {ASSET_TAGS = (); }; };
-		DAD354FB1BD5DF1B002E5AD4 /* QXItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD354F91BD5DF1B002E5AD4 /* QXItemTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
-		DAD354FC1BD5DF1B002E5AD4 /* QXItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD354FA1BD5DF1B002E5AD4 /* QXItemTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
-		DAD354FF1BD63FB1002E5AD4 /* global_tab_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD354FD1BD63FB1002E5AD4 /* global_tab_edit@2x.png */; settings = {ASSET_TAGS = (); }; };
-		DAD355001BD63FB1002E5AD4 /* global_tab_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD354FE1BD63FB1002E5AD4 /* global_tab_edit@3x.png */; settings = {ASSET_TAGS = (); }; };
-		DAD355031BD64E36002E5AD4 /* QXSetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD355021BD64E36002E5AD4 /* QXSetTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DAD355071BD75B74002E5AD4 /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD355061BD75B74002E5AD4 /* uncheck.png */; settings = {ASSET_TAGS = (); }; };
-		DAD355091BD75F6F002E5AD4 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD355081BD75F6F002E5AD4 /* check.png */; settings = {ASSET_TAGS = (); }; };
-		DAD3550D1BD78E7B002E5AD4 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD3550A1BD78E7B002E5AD4 /* delete.png */; settings = {ASSET_TAGS = (); }; };
-		DAD3550E1BD78E7B002E5AD4 /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD3550B1BD78E7B002E5AD4 /* delete@2x.png */; settings = {ASSET_TAGS = (); }; };
-		DAD3550F1BD78E7B002E5AD4 /* delete@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD3550C1BD78E7B002E5AD4 /* delete@3x.png */; settings = {ASSET_TAGS = (); }; };
-		DAE99B901BD9D87800538062 /* Settings-50.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE99B8F1BD9D87800538062 /* Settings-50.png */; settings = {ASSET_TAGS = (); }; };
+		DA9977DB1BC2B8C7003D0F39 /* QXItemTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977DA1BC2B8C7003D0F39 /* QXItemTableViewController.m */; };
+		DA9977DE1BC2C13D003D0F39 /* QXItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977DD1BC2C13D003D0F39 /* QXItem.m */; };
+		DA9977E11BC36208003D0F39 /* QXItemStore.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977E01BC36208003D0F39 /* QXItemStore.m */; };
+		DA9977EF1BC3A792003D0F39 /* QXDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9977ED1BC3A792003D0F39 /* QXDetailTableViewController.m */; };
+		DA9977F21BC52DCD003D0F39 /* Common.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA9977F11BC52DCD003D0F39 /* Common.xib */; };
+		DAD354F61BD3F8C8002E5AD4 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD354F51BD3F8C8002E5AD4 /* back.png */; };
+		DAD354FB1BD5DF1B002E5AD4 /* QXItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD354F91BD5DF1B002E5AD4 /* QXItemTableViewCell.m */; };
+		DAD354FC1BD5DF1B002E5AD4 /* QXItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD354FA1BD5DF1B002E5AD4 /* QXItemTableViewCell.xib */; };
+		DAD354FF1BD63FB1002E5AD4 /* global_tab_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD354FD1BD63FB1002E5AD4 /* global_tab_edit@2x.png */; };
+		DAD355001BD63FB1002E5AD4 /* global_tab_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD354FE1BD63FB1002E5AD4 /* global_tab_edit@3x.png */; };
+		DAD355031BD64E36002E5AD4 /* QXSetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD355021BD64E36002E5AD4 /* QXSetTableViewController.m */; };
+		DAD355071BD75B74002E5AD4 /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD355061BD75B74002E5AD4 /* uncheck.png */; };
+		DAD355091BD75F6F002E5AD4 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD355081BD75F6F002E5AD4 /* check.png */; };
+		DAD3550D1BD78E7B002E5AD4 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD3550A1BD78E7B002E5AD4 /* delete.png */; };
+		DAD3550E1BD78E7B002E5AD4 /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD3550B1BD78E7B002E5AD4 /* delete@2x.png */; };
+		DAD3550F1BD78E7B002E5AD4 /* delete@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD3550C1BD78E7B002E5AD4 /* delete@3x.png */; };
+		DAE99B901BD9D87800538062 /* Settings-50.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE99B8F1BD9D87800538062 /* Settings-50.png */; };
+		DAF6F8611C16832F0088FC50 /* utils.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF6F8601C16832F0088FC50 /* utils.m */; };
+		DAFF64791C10979300296463 /* logger.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFF64781C10979300296463 /* logger.m */; };
 		E4348657EF2CB5D169D8FC4B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 854A695E6794B3A88DA98A64 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +72,8 @@
 		DA32CDEA1BCF586B00E57204 /* Unchecked Checkbox-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Unchecked Checkbox-50.png"; sourceTree = "<group>"; };
 		DA32CDEB1BCF586B00E57204 /* Checked Checkbox-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checked Checkbox-50.png"; sourceTree = "<group>"; };
 		DA32CDF01BD3A65D00E57204 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		DA4573181C03424A003A4079 /* wlbackground11@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "wlbackground11@2x.jpg"; sourceTree = "<group>"; };
+		DA45731B1C034F78003A4079 /* Wundercon-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wundercon-Light.ttf"; sourceTree = "<group>"; };
 		DA4944D41BC95AFD00BE534B /* QXCycleTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXCycleTableViewController.h; sourceTree = "<group>"; };
 		DA4944D51BC95AFD00BE534B /* QXCycleTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXCycleTableViewController.m; sourceTree = "<group>"; };
 		DA982FB71BDC01830002C4BE /* QXLeftSideTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXLeftSideTableViewController.h; sourceTree = "<group>"; };
@@ -74,8 +81,8 @@
 		DA982FBA1BDDFF700002C4BE /* QXLeftSideTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXLeftSideTableViewCell.h; sourceTree = "<group>"; };
 		DA982FBB1BDDFF700002C4BE /* QXLeftSideTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXLeftSideTableViewCell.m; sourceTree = "<group>"; };
 		DA982FBC1BDDFF700002C4BE /* QXLeftSideTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QXLeftSideTableViewCell.xib; sourceTree = "<group>"; };
-		DA982FBF1BDF70C00002C4BE /* QXItemList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QXItemList.h; sourceTree = "<group>"; };
-		DA982FC01BDF70C00002C4BE /* QXItemList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QXItemList.m; sourceTree = "<group>"; };
+		DA982FC21BDFB3130002C4BE /* items.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = items.plist; sourceTree = "<group>"; };
+		DA982FC41BE078670002C4BE /* List-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "List-50.png"; sourceTree = "<group>"; };
 		DA9977A31BC2B7FE003D0F39 /* todo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = todo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9977A71BC2B7FE003D0F39 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DA9977A91BC2B7FE003D0F39 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -116,6 +123,10 @@
 		DAD3550B1BD78E7B002E5AD4 /* delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@2x.png"; sourceTree = "<group>"; };
 		DAD3550C1BD78E7B002E5AD4 /* delete@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@3x.png"; sourceTree = "<group>"; };
 		DAE99B8F1BD9D87800538062 /* Settings-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings-50.png"; sourceTree = "<group>"; };
+		DAF6F85F1C16831D0088FC50 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		DAF6F8601C16832F0088FC50 /* utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = utils.m; sourceTree = "<group>"; };
+		DAFF64771C10972A00296463 /* logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logger.h; sourceTree = "<group>"; };
+		DAFF64781C10979300296463 /* logger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logger.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,9 +177,11 @@
 			children = (
 				DAD354FD1BD63FB1002E5AD4 /* global_tab_edit@2x.png */,
 				DAE99B8F1BD9D87800538062 /* Settings-50.png */,
+				DA982FC41BE078670002C4BE /* List-50.png */,
 				DAD355081BD75F6F002E5AD4 /* check.png */,
 				DAD354FE1BD63FB1002E5AD4 /* global_tab_edit@3x.png */,
 				DA32CDF01BD3A65D00E57204 /* icon.png */,
+				DA4573181C03424A003A4079 /* wlbackground11@2x.jpg */,
 				DAD354F51BD3F8C8002E5AD4 /* back.png */,
 				DAD355061BD75B74002E5AD4 /* uncheck.png */,
 				DAD3550A1BD78E7B002E5AD4 /* delete.png */,
@@ -228,16 +241,19 @@
 				DA9977F11BC52DCD003D0F39 /* Common.xib */,
 				DA9977DC1BC2C13D003D0F39 /* QXItem.h */,
 				DA9977DD1BC2C13D003D0F39 /* QXItem.m */,
-				DA982FBF1BDF70C00002C4BE /* QXItemList.h */,
-				DA982FC01BDF70C00002C4BE /* QXItemList.m */,
 				DA9977DF1BC36208003D0F39 /* QXItemStore.h */,
 				DA9977E01BC36208003D0F39 /* QXItemStore.m */,
 				DAD354F71BD4C2BB002E5AD4 /* common.h */,
+				DA982FC21BDFB3130002C4BE /* items.plist */,
 				DA9977AF1BC2B7FE003D0F39 /* Main.storyboard */,
 				DA9977B21BC2B7FE003D0F39 /* Assets.xcassets */,
 				DA9977B41BC2B7FE003D0F39 /* LaunchScreen.storyboard */,
 				DA9977B71BC2B7FE003D0F39 /* Info.plist */,
 				DA9977A61BC2B7FE003D0F39 /* Supporting Files */,
+				DAFF64771C10972A00296463 /* logger.h */,
+				DAFF64781C10979300296463 /* logger.m */,
+				DAF6F85F1C16831D0088FC50 /* utils.h */,
+				DAF6F8601C16832F0088FC50 /* utils.m */,
 			);
 			path = todo;
 			sourceTree = "<group>";
@@ -245,6 +261,7 @@
 		DA9977A61BC2B7FE003D0F39 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DA45731B1C034F78003A4079 /* Wundercon-Light.ttf */,
 				DA4944DC1BCA553000BE534B /* Resource */,
 				DA9977A71BC2B7FE003D0F39 /* main.m */,
 			);
@@ -339,6 +356,7 @@
 				TargetAttributes = {
 					DA9977A21BC2B7FE003D0F39 = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = DVUJV785UG;
 					};
 					DA9977BB1BC2B7FE003D0F39 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -379,15 +397,19 @@
 				DAD3550E1BD78E7B002E5AD4 /* delete@2x.png in Resources */,
 				DA32CDEC1BCF586B00E57204 /* Unchecked Checkbox-50.png in Resources */,
 				DAD355091BD75F6F002E5AD4 /* check.png in Resources */,
+				DA982FC51BE078670002C4BE /* List-50.png in Resources */,
 				DA32CDED1BCF586B00E57204 /* Checked Checkbox-50.png in Resources */,
 				DAD3550D1BD78E7B002E5AD4 /* delete.png in Resources */,
+				DA982FC31BDFB3130002C4BE /* items.plist in Resources */,
 				DA9977F21BC52DCD003D0F39 /* Common.xib in Resources */,
+				DA45731C1C034F78003A4079 /* Wundercon-Light.ttf in Resources */,
 				DA9977B61BC2B7FE003D0F39 /* LaunchScreen.storyboard in Resources */,
 				DAE99B901BD9D87800538062 /* Settings-50.png in Resources */,
 				DAD354F61BD3F8C8002E5AD4 /* back.png in Resources */,
 				DAD354FC1BD5DF1B002E5AD4 /* QXItemTableViewCell.xib in Resources */,
 				DAD355001BD63FB1002E5AD4 /* global_tab_edit@3x.png in Resources */,
 				DA32CDF11BD3A65D00E57204 /* icon.png in Resources */,
+				DA4573191C03424A003A4079 /* wlbackground11@2x.jpg in Resources */,
 				DAD354FF1BD63FB1002E5AD4 /* global_tab_edit@2x.png in Resources */,
 				DA982FBE1BDDFF700002C4BE /* QXLeftSideTableViewCell.xib in Resources */,
 				DA9977B31BC2B7FE003D0F39 /* Assets.xcassets in Resources */,
@@ -465,10 +487,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA982FC11BDF70C10002C4BE /* QXItemList.m in Sources */,
 				DA9977AE1BC2B7FE003D0F39 /* ViewController.m in Sources */,
 				DA9977E11BC36208003D0F39 /* QXItemStore.m in Sources */,
 				DA9977DB1BC2B8C7003D0F39 /* QXItemTableViewController.m in Sources */,
+				DAF6F8611C16832F0088FC50 /* utils.m in Sources */,
 				DAD355031BD64E36002E5AD4 /* QXSetTableViewController.m in Sources */,
 				DA982FBD1BDDFF700002C4BE /* QXLeftSideTableViewCell.m in Sources */,
 				DA982FB91BDC01830002C4BE /* QXLeftSideTableViewController.m in Sources */,
@@ -476,6 +498,7 @@
 				DA9977AB1BC2B7FE003D0F39 /* AppDelegate.m in Sources */,
 				DA9977A81BC2B7FE003D0F39 /* main.m in Sources */,
 				DA9977DE1BC2C13D003D0F39 /* QXItem.m in Sources */,
+				DAFF64791C10979300296463 /* logger.m in Sources */,
 				DA4944D61BC95AFD00BE534B /* QXCycleTableViewController.m in Sources */,
 				DAD354FB1BD5DF1B002E5AD4 /* QXItemTableViewCell.m in Sources */,
 			);
@@ -617,11 +640,13 @@
 			baseConfigurationReference = BB0C438A05EB8639AA12998E /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: WEIFENG HOU (EXT82G9Z85)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = todo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.qxli.todo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -630,11 +655,13 @@
 			baseConfigurationReference = 694061F9CF0916A2D7F283D1 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: WEIFENG HOU (EXT82G9Z85)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = todo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.qxli.todo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -13,6 +13,7 @@
 #import "UIViewController+MMDrawerController.h"
 #import "QXItemStore.h"
 #import "QXItem.h"
+#import "QXItemList.h"
 
 
 @interface QXLeftSideTableViewController ()
@@ -80,7 +81,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        NSInteger count = [[QXItemStore instance] allItemsListCount];
+        NSInteger count = [[QXItemStore instance] getItemsListCount];
         return count;
     } else {
         return 1;
@@ -114,25 +115,28 @@
     QXLeftSideTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QXLeftSideTableViewCell"
                                                                     forIndexPath:indexPath];
     if (indexPath.section == 0) {
-        // Configure the cell...
-        NSDictionary *itemDic = nil;
         NSArray *uncheckArray = nil;
+        NSArray *itemList = [[QXItemStore instance] getItemList];
+        QXItemList *list = [itemList objectAtIndex:indexPath.row];
         switch (indexPath.row) {
             case 0:
-                itemDic = [[QXItemStore instance] getItemDic:indexPath.row];
-                uncheckArray = [itemDic valueForKey:@"uncheck"];
-                cell.itemLabel.text = [itemDic valueForKey:@"name"];
+                uncheckArray = [[QXItemStore instance] getItemFromListId:@"default" check:NO];
+                cell.itemLabel.text = @"收集箱";
                 cell.itemIcon.text = @"A";
+                cell.listId = list.listId;
+                cell.itemIcon.textColor = UIColorFromHex(0x00bfff);
                 break;
             case 1:
-                uncheckArray = [[QXItemStore instance] getItemFromNowTime];
+                uncheckArray = [[QXItemStore instance] getItemFromListId:@"day" check:NO];
                 cell.itemLabel.text = @"今天";
                 cell.itemIcon.text = @"b";
+                cell.itemIcon.textColor = UIColorFromHex(0x7cfc00);
                 break;
             case 2:
-                uncheckArray = [[QXItemStore instance] getItemFromWeek];
+                uncheckArray = [[QXItemStore instance] getItemFromListId:@"week" check:NO];
                 cell.itemLabel.text = @"本周";
                 cell.itemIcon.text = @"F";
+                cell.itemIcon.textColor = UIColorFromHex(0x5c0fc2);
                 break;
         }
         
@@ -152,15 +156,13 @@
             cell.itemNum.text = [NSString stringWithFormat:@"%ld", [uncheckArray count]];
         }
         if (indexPath.row == self.indexRow) {
-//            [cell setSelected:NO];
             cell.itemLabel.textColor = [UIColor whiteColor];
             cell.itemIcon.textColor = [UIColor whiteColor];
             cell.itemNum.textColor = [UIColor whiteColor];
             cell.contentView.backgroundColor = UIColorFromHex(0x38bfff);
         } else {
             cell.itemLabel.textColor = [UIColor blackColor];
-            cell.itemIcon.textColor = [UIColor blueColor];
-            cell.itemNum.textColor = [UIColor blackColor];
+            cell.itemNum.textColor = [UIColor grayColor];
         }
         cell.itemIcon.hidden = NO;
     } else {
@@ -175,21 +177,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    cell.backgroundColor = UIColorFromHex(0x1eb6ff);
+//    QXLeftSideTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (indexPath.section == 0) {
         QXItemTableViewController *itemView= [[QXItemTableViewController alloc] init];
-        NSDictionary *itemDic = [[QXItemStore instance] getItemDic:indexPath.row];
         switch (indexPath.row) {
             case 0:
-                itemView.checkList = [itemDic valueForKey:@"check"];
-                itemView.uncheckList = [itemDic valueForKey:@"uncheck"];
+                itemView.listId = @"default";
                 break;
             case 1:
-                itemView.uncheckList = [[QXItemStore instance] getItemFromNowTime];
+                itemView.listId = @"day";
                 break;
             case 2:
-                itemView.uncheckList = [[QXItemStore instance] getItemFromWeek];
+                itemView.listId = @"week";
                 itemView.isShowAdd = NO;
                 break;
         }
@@ -203,7 +202,7 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else {
         [[QXItemStore instance] addItemList:@"new"];
-        NSInteger lastRow = [[QXItemStore instance] allItemsListCount]-1;
+        NSInteger lastRow = [[QXItemStore instance] getItemsListCount]-1;
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastRow inSection:0];
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];

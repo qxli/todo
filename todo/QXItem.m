@@ -37,12 +37,14 @@
         [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
         NSDate *date= [dateFormatter dateFromString:dateString];
         _dateCreated = date;
+        _dateExpire = date;
         _dateAlarm = nil;
         NSUUID *uuid = [[NSUUID alloc] init];
         _Key = [uuid UUIDString];
         _isChecked = NO;
         _listId = 0;
         _cycle = 0;
+        _listKey = @"default";
     }
     return self;
 }
@@ -55,6 +57,8 @@
         _dateCreated = [aCoder decodeObjectForKey:@"itemDateCreated"];
         _Key = [aCoder decodeObjectForKey:@"itemKey"];
         _dateAlarm = [aCoder decodeObjectForKey:@"itemDateAlarm"];
+        _isChecked = [aCoder decodeBoolForKey:@"itemIsCheck"];
+        _listKey = [aCoder decodeObjectForKey:@"itemListId"];
     }
     return self;
 }
@@ -65,6 +69,8 @@
     [aCoder encodeObject:self.dateCreated forKey:@"itemDateCreated"];
     [aCoder encodeObject:self.Key forKey:@"itemKey"];
     [aCoder encodeObject:self.dateAlarm forKey:@"itemDateAlarm"];
+    [aCoder encodeBool:self.isChecked forKey:@"itemIsCheck"];
+    [aCoder encodeObject:self.listKey forKey:@"itemListId"];
 }
 
 @end

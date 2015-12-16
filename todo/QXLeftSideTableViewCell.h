@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *itemLabel;
 @property (weak, nonatomic) IBOutlet UILabel *itemNum;
 @property (weak, nonatomic) IBOutlet UILabel *notifyNum;
+@property (strong, nonatomic) NSString *listId;
 
 @end

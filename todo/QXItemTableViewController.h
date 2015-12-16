@@ -12,5 +12,7 @@
 
 @property (strong, nonatomic) NSMutableArray *uncheckList;
 @property (strong, nonatomic) NSMutableArray *checkList;
+@property (strong, nonatomic) NSMutableArray *itemList;
+@property (strong, nonatomic) NSString *listId;
 @property (nonatomic) BOOL isShowAdd;
 @end

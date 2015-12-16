@@ -13,11 +13,13 @@
 @property (nonatomic, strong) NSString *Name;       // 提醒名
 @property (nonatomic, strong) NSString *Content;
 @property (nonatomic, strong) NSDate *dateCreated;  // 创建日期
-@property (nonatomic, strong) NSDate *dateAlarm;  // 提醒时间
+@property (nonatomic, strong) NSDate *dateAlarm;    // 提醒时间
+@property (nonatomic, strong) NSDate *dateExpire;   // 到期时间
 @property (nonatomic, strong) NSString *Key;
 @property (nonatomic, assign) BOOL isChecked;
 @property (nonatomic) BOOL isComplete;
 @property (nonatomic) NSInteger listId;
+@property (nonatomic, strong) NSString *listKey;
 @property (nonatomic) NSInteger cycle;
 
 - (instancetype) initWithItemName:(NSString *)name;

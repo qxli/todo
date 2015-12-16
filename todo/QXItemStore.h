@@ -17,19 +17,22 @@
 
 - (QXItem *)getCheckItemFromRow:(NSInteger)row listId:(NSInteger)listId;
 - (QXItem *)getUncheckItemFromRow:(NSInteger)row listId:(NSInteger)listId;
-- (void)addUnCheckItem:(QXItem *)item listId:(NSInteger)listId index:(NSInteger)index;
 - (void)addCheckItem:(QXItem *)item listId:(NSInteger)listId index:(NSInteger)index;
 - (BOOL)saveItem;
 - (void)removeItem:(QXItem *)item isCheck:(BOOL)check;
-- (NSMutableArray *)getItemFromWeek;
-- (NSMutableArray *)getItemFromNowTime;
 - (void)setItemCheck:(NSString *)key;
 
 
 - (NSInteger)unCheckCount:(NSInteger) listId;
 - (NSInteger)checkCount:(NSInteger) listId;
 
-- (NSInteger) allItemsListCount;
 - (NSDictionary *) getItemDic:(NSInteger)index;
 - (void)addItemList:(NSString *)listName;
+
+
+- (NSInteger) getItemsListCount;
+- (NSMutableArray *)getItemList;
+- (NSMutableArray *)getItemFromListId:(NSString *)listId check:(BOOL)isCheck;
+- (void)addItem:(QXItem *)item;
+- (NSMutableArray *)getDayItem;
 @end

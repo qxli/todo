@@ -47,9 +47,10 @@
 #else
     UIViewController *leftSideTableViewController = [[QXLeftSideTableViewController alloc] init];
     QXItemTableViewController *ivc = [[QXItemTableViewController alloc] init];
-    NSDictionary *itemDic = [[QXItemStore instance] getItemDic:0];
-    ivc.checkList = [itemDic valueForKey:@"check"];
-    ivc.uncheckList = [itemDic valueForKey:@"uncheck"];
+//    NSDictionary *itemDic = [[QXItemStore instance] getItemDic:0];
+//    ivc.checkList = [itemDic valueForKey:@"check"];
+//    ivc.uncheckList = [itemDic valueForKey:@"uncheck"];
+    ivc.listId = @"default";
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:ivc];
 //    UINavigationController *leftSideNavController = [[UINavigationController alloc] initWithRootViewController:cycleTableViewController];
     self.drawerController = [[MMDrawerController alloc] initWithCenterViewController:navController leftDrawerViewController:leftSideTableViewController];
@@ -151,7 +152,7 @@
     NSString *valueIDFA = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     NSString *atom = [NSString stringWithFormat:@"cv=%@&imsi=%@&idfa=%@", systemVersion, valueImsi, valueIDFA];
     NSString *url = [NSString stringWithFormat:@"http://59.151.12.36:9090/serviceinfo?%@", atom];
-    NSLog(@"serviceinfo url:%@", url);
+//    NSLog(@"serviceinfo url:%@", url);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];

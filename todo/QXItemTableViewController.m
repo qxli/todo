@@ -162,6 +162,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+//    DDLogDebug(@"%s", __func__);
+    self.uncheckList = [[QXItemStore instance] getItemFromListId:self.listId check:NO];
+    if (self.isShowAdd) {
+        self.checkList = [[QXItemStore instance] getItemFromListId:self.listId check:YES];
+    }
     [self.tableView reloadData];
 //    [self.tableView setEditing:YES animated:YES];
 }
@@ -179,11 +184,7 @@
         count = [self.uncheckList count];
     } else {
         count = [self.checkList count];
-//        if (self.isHidden) {
-//            count = 0;
-//        }
     }
-//    NSLog(@"section=%ld,numberOfRowsInSection=%ld", section, count);
     return count;
 }
 
@@ -224,6 +225,12 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     QXItem *item = [[QXItem alloc] initWithItemName:textField.text];
+    if ([self.listId isEqualToString:@"day"] || [self.listId isEqualToString:@"week"]) {
+        item.listKey = @"default";
+    } else {
+        item.listKey = self.listId;
+    }
+    [[QXItemStore instance] addItem:item];
     [self.uncheckList insertObject:item atIndex:0];
     NSInteger lastRow = [self.uncheckList indexOfObjectIdenticalTo:item];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastRow inSection:0];
@@ -343,6 +350,7 @@
         if (!item) {
             NSLog(@"");
         }
+        item.isChecked = YES;
         [self.checkList addObject:item];
         NSInteger firstRow = [self.checkList indexOfObject:item];
         NSIndexPath *indexPathNew = [NSIndexPath indexPathForRow:firstRow inSection:1];
@@ -354,6 +362,7 @@
         if (!item) {
             NSLog(@"");
         }
+        item.isChecked = NO;
         [self.uncheckList addObject:item];
         NSInteger firstRow = [self.uncheckList indexOfObject:item];
         NSIndexPath *indexPathNew = [NSIndexPath indexPathForRow:firstRow inSection:0];

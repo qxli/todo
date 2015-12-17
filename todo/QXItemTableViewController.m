@@ -32,7 +32,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"QXItemTableViewCell" bundle:nil]
          forCellReuseIdentifier:@"QXItemTableViewCell"];
     
@@ -49,18 +48,10 @@
     UIImageView *backImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
     [backImageView setImage:[UIImage imageNamed:@"wlbackground11@2x.jpg"]];
     self.tableView.backgroundView = backImageView;
-//    self.tableView.backgroundColor = UIColorFromHex(0xa2d9ff);
-//    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = NO;
-    self.headerView = [self getSectionView:0];
-    self.checkView = [self getSectionView:1];
+    self.headerView = [self createAddButton];
+    self.checkView = [self createLabel];
     self.isHidden = NO;
-//    self.cellView = [self getCellView];
-//    NSDate *today = [NSDate date];
-//    NSDate *thisWeek  = [today dateByAddingTimeInterval: -604800.0];
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm +0800"];
-//    NSString *dateString = [dateFormatter stringFromDate:thisWeek];
     
 }
 
@@ -69,58 +60,54 @@
     [self.tableView reloadData];
 }
 
-
-
-- (UIView *)getSectionView:(NSInteger)section {
-    UIView *aView = nil;
-    if (section == 0) {
-        aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CC_Screen_Width, headViewHeight)];
-//        aView.backgroundColor = [UIColor blueColor];
-        if (self.isShowAdd) {
-            UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake((CC_Screen_Width-355*CC_Factor_iPhone6_375)/2, (headViewHeight-44)/2*CC_Factor_iPhone6_375, 355*CC_Factor_iPhone6_375, 44)];
-            textField.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.55];
-            textField.layer.cornerRadius = 3.0f;
-            textField.tintColor = [UIColor whiteColor];
-            UIView *paddingView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10*CC_Factor_iPhone6_375, headViewHeight-20)];
-            textField.leftView = paddingView;
-            textField.leftViewMode = UITextFieldViewModeAlways;
-            textField.textColor = [UIColor whiteColor];
-            textField.delegate = self;
-            textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"添加一个任务…" attributes:@{NSForegroundColorAttributeName: [UIColor lightTextColor]}];
-            textField.layer.cornerRadius = 4.0f;
-            textField.layer.borderColor = [UIColor clearColor].CGColor;
-            textField.layer.shadowColor = [UIColor blackColor].CGColor;
-            textField.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
-            textField.layer.shadowRadius = 4.0f;
-            textField.layer.shadowPath = [[UIBezierPath bezierPathWithRect:textField.layer.bounds] CGPath];
-            [textField.layer setShadowOpacity:0.1f];
-            [aView addSubview:textField];
-        }
-    } else if (section == 1) {
-        aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CC_Screen_Width, 40)];
-//        aView.backgroundColor = [UIColor redColor];
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        CGRect frame = CGRectMake((CC_Screen_Width-355*CC_Factor_iPhone6_375)/2, (40-20)*CC_Factor_iPhone6_375/2, 100*CC_Factor_iPhone6_375, 20*CC_Factor_iPhone6_375);
-        button.frame = frame;   // match the button's size with the image size
-        button.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.55];
-        [button setTitle:@"已完成任务" forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize:12.0];
-        [aView addSubview:button];
-        button.layer.cornerRadius = 4.0f;
-        button.layer.borderColor = [UIColor clearColor].CGColor;
-        button.layer.shadowColor = [UIColor blackColor].CGColor;
-        button.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
-        button.layer.shadowRadius = 4.0f;
-        button.layer.shadowPath = [[UIBezierPath bezierPathWithRect:button.layer.bounds] CGPath];
-        [button.layer setShadowOpacity:0.1f];
-        [button addTarget:self action:@selector(sectionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+- (UIView *)createAddButton {
+    UIView *aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CC_Screen_Width, headViewHeight)];
+    if (self.isShowAdd) {
+        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake((CC_Screen_Width-355*CC_Factor_iPhone6_375)/2, (headViewHeight-44)/2*CC_Factor_iPhone6_375, 355*CC_Factor_iPhone6_375, 44)];
+        textField.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.55];
+        textField.layer.cornerRadius = 3.0f;
+        textField.tintColor = [UIColor whiteColor];
+        UIView *paddingView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10*CC_Factor_iPhone6_375, headViewHeight-20)];
+        textField.leftView = paddingView;
+        textField.leftViewMode = UITextFieldViewModeAlways;
+        textField.textColor = [UIColor whiteColor];
+        textField.delegate = self;
+        textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"添加一个任务…" attributes:@{NSForegroundColorAttributeName: [UIColor lightTextColor]}];
+        textField.layer.cornerRadius = 4.0f;
+        textField.layer.borderColor = [UIColor clearColor].CGColor;
+        textField.layer.shadowColor = [UIColor blackColor].CGColor;
+        textField.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+        textField.layer.shadowRadius = 4.0f;
+        textField.layer.shadowPath = [[UIBezierPath bezierPathWithRect:textField.layer.bounds] CGPath];
+        [textField.layer setShadowOpacity:0.1f];
+        [aView addSubview:textField];
     }
+    return aView;
+}
+
+- (UIView *)createLabel {
+    UIView *aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CC_Screen_Width, 40)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect frame = CGRectMake((CC_Screen_Width-355*CC_Factor_iPhone6_375)/2, (40-20)*CC_Factor_iPhone6_375/2, 100*CC_Factor_iPhone6_375, 20*CC_Factor_iPhone6_375);
+    button.frame = frame;   // match the button's size with the image size
+    button.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.55];
+    [button setTitle:@"已完成任务" forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:12.0];
+    [aView addSubview:button];
+    button.layer.cornerRadius = 4.0f;
+    button.layer.borderColor = [UIColor clearColor].CGColor;
+    button.layer.shadowColor = [UIColor blackColor].CGColor;
+    button.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+    button.layer.shadowRadius = 4.0f;
+    button.layer.shadowPath = [[UIBezierPath bezierPathWithRect:button.layer.bounds] CGPath];
+    [button.layer setShadowOpacity:0.1f];
+    [button addTarget:self action:@selector(sectionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [aView addSubview:button];
     return aView;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (instancetype)init
@@ -129,15 +116,6 @@
     if (self) {
         UINavigationItem *navItem = self.navigationItem;
         navItem.title = @"任务清单";
-//        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-//        UIImage *image = [UIImage imageNamed:@"Settings-50"];
-//        [button setBackgroundImage:image forState:UIControlStateNormal];
-//        [button addTarget:self action:@selector(globalSet:) forControlEvents:UIControlEventTouchUpInside];
-//        UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithCustomView:button];
-//        navItem.rightBarButtonItem = bbi;
-//        navItem.rightBarButtonItem = self.editButtonItem;
-        
-//        UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithTitle:@"add" style:UIBarButtonItemStyleDone  target:self action:@selector(leftDrawerButtonPress:)];
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 34, 20.5)];
         label.font = [UIFont fontWithName:@"Wundercon-Light" size:20];
         label.text = @"x";
@@ -174,6 +152,9 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if ([self.checkList count] <= 0) {
+        return 1;
+    }
     return 2;
 }
 
@@ -190,7 +171,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return headViewHeight;
+        if (self.isShowAdd) {
+            return headViewHeight;
+        } else {
+            return 10;
+        }
     } else{
         if ([self.checkList count] <= 0) {
             return 1;
@@ -212,12 +197,17 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        return self.headerView;
+        if (self.isShowAdd) {
+            return self.headerView;
+        } else {
+            return nil;
+        }
     }else{
         if ([self.checkList count] <= 0) {
             return nil;
+        } else {
+            return self.checkView;
         }
-        return self.checkView;
     }
     return nil;
 }
@@ -268,8 +258,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QXItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QXItemTableViewCell" forIndexPath:indexPath];
-#if 1
+    QXItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QXItemTableViewCell"
+                                                                forIndexPath:indexPath];
     QXItem *item = nil;
     UIImage *image = nil;
     if (indexPath.section == 0) {
@@ -310,14 +300,6 @@
     [cell.itemButton setImage:image forState:UIControlStateNormal];
     cell.itemButton.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     [cell.itemButton addTarget:self action:@selector(checkButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
-    
-#else
-//    view.layer.shadowColor = [UIColor blackColor].CGColor;
-//    view.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
-//    view.layer.shadowRadius = 4.0f;
-//    view.layer.shadowPath = [[UIBezierPath bezierPathWithRect:view.layer.bounds] CGPath];
-//    [view.layer setShadowOpacity:0.1f];
-#endif
     return cell;
 }
 
@@ -340,9 +322,6 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-//    QXItemTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    UIImage *image = [UIImage imageNamed:@"Checked Checkbox-50"];
-//    [cell.itemButton setBackgroundImage:image forState:UIControlStateNormal];
     QXItem *item = nil;
     [self.tableView beginUpdates];
     if (indexPath.section == 0) {
@@ -357,6 +336,10 @@
         [self.tableView insertRowsAtIndexPaths:@[indexPathNew] withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.uncheckList removeObjectIdenticalTo:item];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        if ([self.checkList count] == 1) {
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1]
+                          withRowAnimation:UITableViewRowAnimationTop];
+        }
     } else{
         item = [self.checkList objectAtIndex:indexPath.row];
         if (!item) {
@@ -369,6 +352,10 @@
         [self.tableView insertRowsAtIndexPaths:@[indexPathNew] withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.checkList removeObjectIdenticalTo:item];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        if ([self.checkList count] <=0) {
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1]
+                          withRowAnimation:UITableViewRowAnimationTop];
+        }
     }
     [self.tableView endUpdates];
     
@@ -498,7 +485,7 @@
 }
 
 
-#pragma mark - Button Handlers
+#pragma mark - MMDrawerController Button Handlers
 -(void)leftDrawerButtonPress:(id)sender{
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }

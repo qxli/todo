@@ -56,10 +56,24 @@
     self.drawerController = [[MMDrawerController alloc] initWithCenterViewController:navController leftDrawerViewController:leftSideTableViewController];
     [self.drawerController setShowsShadow:NO];
     [self.drawerController setRestorationIdentifier:@"MMDrawer"];
+    [self.drawerController setShouldStretchDrawer:NO];
     [self.drawerController setMaximumRightDrawerWidth:150.0];
-    [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeBezelPanningCenterView];
-    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll&~MMCloseDrawerGestureModePanningDrawerView];
+    [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeCustom];
+    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll
+                                                        &~MMCloseDrawerGestureModePanningDrawerView];
     [self.drawerController setMaximumLeftDrawerWidth:self.window.bounds.size.width-70];
+    [self.drawerController setGestureShouldRecognizeTouchBlock:
+     ^BOOL(MMDrawerController *drawerController, UIGestureRecognizer *gesture, UITouch *touch) {
+         BOOL shouldRecognizeTouch = NO;
+         if(drawerController.openSide == MMDrawerSideNone && [gesture isKindOfClass:[UIPanGestureRecognizer class]]){
+             if([touch.view isKindOfClass:[UITableView class]]){
+                 shouldRecognizeTouch = YES;
+             }else{
+                 shouldRecognizeTouch = NO;
+             }
+         }
+         return shouldRecognizeTouch;
+     }];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerController;
 #endif

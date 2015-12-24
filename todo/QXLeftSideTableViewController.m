@@ -39,11 +39,13 @@
 
 - (instancetype)init
 {
-    self = [super initWithStyle:UITableViewStyleGrouped];
+    self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
+        if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+            self.edgesForExtendedLayout = UIRectEdgeNone;
         self.tableView.separatorStyle = NO;
-//        self.tableView.backgroundColor = UIColorFromHex(0xededed);
-        self.indexRow = 0;
+        self.tableView.backgroundColor = UIColorFromHex(0xf6f6f6);
+//        self.indexRow = 0;
     }
     return self;
 }
@@ -61,60 +63,37 @@
 
 #pragma mark - Table view data source
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return 70;
-    } else {
-        return 0.1f;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0.1;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        NSInteger count = [[QXItemStore instance] getItemsListCount];
-        return count;
-    } else {
-        return 1;
-    }
+    NSInteger count = [[QXItemStore instance] getItemsListCount];
+    return count;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        UIView *aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CC_Screen_Width, 40)];
-        CGRect aRect = CGRectMake(15*CC_Factor_iPhone6_375, 30, 30, 30);
-        UILabel *loginLabel = [[UILabel alloc] initWithFrame:aRect];
-        loginLabel.font = [UIFont fontWithName:@"Wundercon-Light" size:25];
-        loginLabel.text = [NSString stringWithUTF8String:"\ue003"];
-        [aView addSubview:loginLabel];
-        
-        UILabel *searchLabel = [[UILabel alloc] initWithFrame:CGRectMake(CC_Screen_Width-160*CC_Factor_iPhone6_375, 30, 30, 30)];
-        searchLabel.font = [UIFont fontWithName:@"Wundercon-Light" size:25];
-        searchLabel.text = [NSString stringWithUTF8String:"\ue002"];
-        [aView addSubview:searchLabel];
-        
-        UILabel *setLabel = [[UILabel alloc] initWithFrame:CGRectMake(CC_Screen_Width-120*CC_Factor_iPhone6_375, 30, 30, 30)];
-        setLabel.font = [UIFont fontWithName:@"Wundercon-Light" size:25];
-        setLabel.text = [NSString stringWithUTF8String:"\ue001"];
-        [aView addSubview:setLabel];
-        return aView;
-    }
-    return nil;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    if (section == 0) {
+//        UIView *aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CC_Screen_Width, 40)];
+//        CGRect aRect = CGRectMake(15*CC_Factor_iPhone6_375, 30, 30, 30);
+//        UILabel *loginLabel = [[UILabel alloc] initWithFrame:aRect];
+//        loginLabel.font = [UIFont fontWithName:@"Wundercon-Light" size:25];
+//        loginLabel.text = [NSString stringWithUTF8String:"\ue003"];
+//        [aView addSubview:loginLabel];
+//        
+//        UILabel *searchLabel = [[UILabel alloc] initWithFrame:CGRectMake(CC_Screen_Width-160*CC_Factor_iPhone6_375, 30, 30, 30)];
+//        searchLabel.font = [UIFont fontWithName:@"Wundercon-Light" size:25];
+//        searchLabel.text = [NSString stringWithUTF8String:"\ue002"];
+//        [aView addSubview:searchLabel];
+//        
+//        UILabel *setLabel = [[UILabel alloc] initWithFrame:CGRectMake(CC_Screen_Width-120*CC_Factor_iPhone6_375, 30, 30, 30)];
+//        setLabel.font = [UIFont fontWithName:@"Wundercon-Light" size:25];
+//        setLabel.text = [NSString stringWithUTF8String:"\ue001"];
+//        [aView addSubview:setLabel];
+//        return aView;
+//    }
+//    return nil;
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     QXLeftSideTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QXLeftSideTableViewCell"
                                                                     forIndexPath:indexPath];
-    if (indexPath.section == 0) {
         NSArray *uncheckArray = nil;
         NSArray *itemList = [[QXItemStore instance] getItemList];
         QXItemList *list = [itemList objectAtIndex:indexPath.row];
@@ -130,7 +109,7 @@
                 uncheckArray = [[QXItemStore instance] getItemFromListId:@"day" check:NO];
                 cell.itemLabel.text = @"今天";
                 cell.itemIcon.text = @"b";
-                cell.itemIcon.textColor = UIColorFromHex(0x7cfc00);
+                cell.itemIcon.textColor = UIColorFromHex(0x67ae2b);
                 break;
             case 2:
                 uncheckArray = [[QXItemStore instance] getItemFromListId:@"week" check:NO];
@@ -159,19 +138,12 @@
             cell.itemLabel.textColor = [UIColor whiteColor];
             cell.itemIcon.textColor = [UIColor whiteColor];
             cell.itemNum.textColor = [UIColor whiteColor];
-            cell.contentView.backgroundColor = UIColorFromHex(0x38bfff);
+            cell.contentView.backgroundColor = UIColorFromHex(0x5da1da);
         } else {
             cell.itemLabel.textColor = [UIColor blackColor];
             cell.itemNum.textColor = [UIColor grayColor];
         }
         cell.itemIcon.hidden = NO;
-    } else {
-        cell.itemLabel.text = @"add";
-        cell.itemIcon.hidden = YES;
-        cell.itemNum.text = @"";
-        cell.notifyNum.text = @"";
-    }
-    
     return cell;
 }
 

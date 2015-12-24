@@ -46,14 +46,15 @@
     self.window.rootViewController = navController;
 #else
     UIViewController *leftSideTableViewController = [[QXLeftSideTableViewController alloc] init];
+    UINavigationController *navleftSideController = [[UINavigationController alloc] initWithRootViewController:leftSideTableViewController];
     QXItemTableViewController *ivc = [[QXItemTableViewController alloc] init];
-//    NSDictionary *itemDic = [[QXItemStore instance] getItemDic:0];
-//    ivc.checkList = [itemDic valueForKey:@"check"];
-//    ivc.uncheckList = [itemDic valueForKey:@"uncheck"];
     ivc.listId = @"default";
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:ivc];
+    navController.navigationBar.barTintColor = UIColorFromHex(0xf6f6f6);
+    navController.navigationBar.tintColor = [UIColor whiteColor];
+    navController.navigationBar.translucent = NO;
 //    UINavigationController *leftSideNavController = [[UINavigationController alloc] initWithRootViewController:cycleTableViewController];
-    self.drawerController = [[MMDrawerController alloc] initWithCenterViewController:navController leftDrawerViewController:leftSideTableViewController];
+    self.drawerController = [[MMDrawerController alloc] initWithCenterViewController:navController leftDrawerViewController:navleftSideController];
     [self.drawerController setShowsShadow:NO];
     [self.drawerController setRestorationIdentifier:@"MMDrawer"];
     [self.drawerController setShouldStretchDrawer:NO];

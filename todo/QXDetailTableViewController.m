@@ -154,10 +154,6 @@ static NSString *ktextFieldCell = @"textFieldCell";
                 self.nameField.text = item.Name;
                 self.nameField.placeholder = @"提醒事项";
                 [cell.contentView addSubview:self.nameField];
-                //            if (!cell) {
-                //                NSArray *Common = [[NSBundle mainBundle] loadNibNamed:@"Common" owner:self options:nil];
-                //                cell = Common[1];
-                //            }
             }
             break;
         }

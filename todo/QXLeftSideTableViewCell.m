@@ -19,6 +19,8 @@
     self.notifyNum.text = @"";
     self.itemNum.text = @"";
     self.itemIcon.font = [UIFont fontWithName:@"Wundercon-Light" size:20];
+    self.itemLabel.font = [UIFont boldSystemFontOfSize:14.5];
+    self.itemNum.font = [UIFont boldSystemFontOfSize:14.5];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

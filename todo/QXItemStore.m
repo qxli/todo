@@ -64,17 +64,12 @@
 //        return [[NSMutableArray alloc] initWithContentsOfFile:[self getItemListArchivePath]];
 }
 
-
 - (void)setItemCheck:(NSString *)key {
-    for (NSDictionary *itemDic in self.items) {
-        NSArray *uncheckArray = [itemDic objectForKey:@"uncheck"];
-        for (QXItem *item in uncheckArray) {
-            if( [item.Key isEqualToString:key]) {
-                item.isChecked = YES;
-            }
+    for (QXItem *item in self.items) {
+        if( [item.Key isEqualToString:key]) {
+            item.isChecked = YES;
         }
     }
-    
 }
 
 - (NSInteger)unCheckCount:(NSInteger) listId {
@@ -194,10 +189,8 @@
                 [items addObject:item];
             }
         } else if ([listId isEqualToString:@"week"]) {
-            if( ([sp intervalSinceNow:item.dateAlarm]<7
-                 && [sp intervalSinceNow:item.dateAlarm]<[sp getTodayisWeek:[NSDate date]])
-               || ([sp intervalSinceNow:item.dateExpire]<7
-                   && [sp intervalSinceNow:item.dateExpire]<[sp getTodayisWeek:[NSDate date]])) {
+            if( ([sp intervalSinceNow:item.dateAlarm]<7 && [sp intervalSinceNow:item.dateAlarm]<[sp getTodayisWeek:[NSDate date]] && item.isChecked == isCheck)
+               || ([sp intervalSinceNow:item.dateExpire]<7 && [sp intervalSinceNow:item.dateExpire]<[sp getTodayisWeek:[NSDate date]] && item.isChecked == isCheck)) {
                 [items addObject:item];
             }
         } else {

@@ -19,7 +19,7 @@
 
 #define headViewHeight 65
 
-@interface QXItemTableViewController () <UITextFieldDelegate,SWTableViewCellDelegate>
+@interface QXItemTableViewController () <UITextFieldDelegate,SWTableViewCellDelegate,UIViewControllerPreviewingDelegate>
 
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UIView *checkView;
@@ -52,6 +52,12 @@
     self.headerView = [self createAddButton];
     self.checkView = [self createLabel];
     self.isHidden = NO;
+    
+    if(self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+        
+        [self registerForPreviewingWithDelegate:self sourceView:self.view];
+        
+    }
     
 }
 
@@ -488,6 +494,37 @@
 #pragma mark - MMDrawerController Button Handlers
 -(void)leftDrawerButtonPress:(id)sender{
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+}
+
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
+    
+    NSIndexPath *indexPath =  [self.tableView indexPathForRowAtPoint:location];
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    if(cell != nil ){
+        
+        QXDetailTableViewController *detailViewController = [[QXDetailTableViewController alloc] init];
+        QXItem *item = nil;
+        if (indexPath.section == 0) {
+            item = [self.uncheckList objectAtIndex:indexPath.row];
+        } else {
+            item = [self.checkList objectAtIndex:indexPath.row];
+        }
+        detailViewController.item = item;
+        return detailViewController;
+        
+    }
+    
+    return nil;
+    
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+    
+    [self showViewController:viewControllerToCommit sender:self];
+    
 }
 
 /*
